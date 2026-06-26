@@ -289,12 +289,18 @@ jobs:
 
 ```powershell
 #Requires -Version 5.1
-#Requires -Modules @{ ModuleName = 'BuildHelpers'; ModuleVersion = '2.0.1' }
-#Requires -Modules @{ ModuleName = 'Pester'; ModuleVersion = '5.2.0' }
 
 $env:SCOOP_HOME = "$(Convert-Path '.\scoop_core')"
-Invoke-Pester -Path "$PSScriptRoot/.." -Output Detailed
+
+$pesterConfig = New-PesterConfiguration -Hashtable @{
+    Run    = @{ Path = "$PSScriptRoot/.."; PassThru = $true }
+    Output = @{ Verbosity = 'Detailed' }
+}
+$result = Invoke-Pester -Configuration $pesterConfig
+exit $result.FailedCount
 ```
+
+> 注：`#Requires -Modules` 精确版本已被移除。`potatoqualitee/psmodulecache@v1` 默认安装最新版本的 BuildHelpers / Pester，精确版本约束（如 `ModuleVersion = '2.0.1'`）会因模块版本漂移导致脚本启动失败。BucketTemplate 的精简变体不依赖精确版本契约。
 
 ---
 
