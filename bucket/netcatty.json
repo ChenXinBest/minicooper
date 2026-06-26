@@ -1,0 +1,46 @@
+{
+    "version": "1.1.45",
+    "description": "AI-powered terminal and SSH client with built-in agent support",
+    "homepage": "https://github.com/binaricat/Netcatty",
+    "license": "GPL-3.0",
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/binaricat/Netcatty/releases/download/v1.1.45/Netcatty-1.1.45-win-x64.exe",
+            "hash": "sha256:66b91fb6c012d02a67bc4f50ca8661f6baeb444f025b162aa696e585258656fe",
+            "installer": {
+                "file": "Netcatty-1.1.45-win-x64.exe"
+            }
+        },
+        "arm64": {
+            "url": "https://github.com/binaricat/Netcatty/releases/download/v1.1.45/Netcatty-1.1.45-win-arm64.exe",
+            "hash": "sha256:dad037d38e482f495554c18d596ea02885f19170f8558b252021e2e43145cd4c",
+            "installer": {
+                "file": "Netcatty-1.1.45-win-arm64.exe"
+            }
+        }
+    },
+    "bin": "Netcatty.exe",
+    "shortcuts": [
+        [
+            "Netcatty.exe",
+            "Netcatty.lnk",
+            "Netcatty",
+            ""
+        ]
+    ],
+    "checkver": {
+        "url": "https://api.github.com/repos/binaricat/Netcatty/releases/latest",
+        "jsonpath": "$.tag_name",
+        "regex": "v([\\d.]+)"
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/binaricat/Netcatty/releases/download/v$version/Netcatty-$version-win-x64.exe"
+            },
+            "arm64": {
+                "url": "https://github.com/binaricat/Netcatty/releases/download/v$version/Netcatty-$version-win-arm64.exe"
+            }
+        }
+    }
+}
