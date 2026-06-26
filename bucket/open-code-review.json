@@ -1,0 +1,39 @@
+{
+    "version": "1.6.1",
+    "description": "AI-powered code review CLI by Alibaba",
+    "homepage": "https://github.com/alibaba/open-code-review",
+    "license": "Apache-2.0",
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/alibaba/open-code-review/releases/download/v1.6.1/opencodereview-windows-amd64.exe",
+            "hash": "sha256:b7248c1f888bad37699d64946d349278a55cfbd51e2293a96e0a45f2a1861b95",
+            "rename": {
+                "opencodereview-windows-amd64.exe": "opencodereview.exe"
+            }
+        },
+        "arm64": {
+            "url": "https://github.com/alibaba/open-code-review/releases/download/v1.6.1/opencodereview-windows-arm64.exe",
+            "hash": "sha256:bab28c057cb2aae8ea99824e3ed62152307059fb482bab63f87eede2e7f927c6",
+            "rename": {
+                "opencodereview-windows-arm64.exe": "opencodereview.exe"
+            }
+        }
+    },
+    "bin": "opencodereview.exe",
+    "persist": ".opencodereview",
+    "checkver": {
+        "url": "https://api.github.com/repos/alibaba/open-code-review/releases/latest",
+        "jsonpath": "$.tag_name",
+        "regex": "v([\\d.]+)"
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/alibaba/open-code-review/releases/download/v$version/opencodereview-windows-amd64.exe"
+            },
+            "arm64": {
+                "url": "https://github.com/alibaba/open-code-review/releases/download/v$version/opencodereview-windows-arm64.exe"
+            }
+        }
+    }
+}
