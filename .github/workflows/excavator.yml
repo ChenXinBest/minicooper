@@ -1,0 +1,32 @@
+name: Excavator
+on:
+  schedule:
+    - cron: '0 */4 * * *'
+  workflow_dispatch:
+
+permissions: read
+
+jobs:
+  auto-update:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GH_PAT }}
+      - uses: actions/checkout@v4
+        with:
+          repository: ScoopInstaller/Scoop
+          path: scoop_core
+      - uses: actions/checkout@v4
+        with:
+          repository: ScoopInstaller/Excavator
+          path: excavator
+      - uses: potatoqualitee/psmodulecache@v1
+        with:
+          modules-to-cache: BuildHelpers, Pester
+      - name: Run Excavator
+        run: .\bin\auto-pr.ps1 -Push
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+          SCOOP_BUCKET_REPO: ChenXinBest/minicooper
