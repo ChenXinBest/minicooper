@@ -208,7 +208,9 @@ on:
     branches: [master]
   workflow_dispatch:
 
-permissions: read
+permissions:
+  contents: read
+  pull-requests: read
 
 jobs:
   test:
@@ -240,7 +242,9 @@ on:
     - cron: '0 */4 * * *'
   workflow_dispatch:
 
-permissions: read
+permissions:
+  contents: read
+  pull-requests: read
 
 jobs:
   auto-update:
