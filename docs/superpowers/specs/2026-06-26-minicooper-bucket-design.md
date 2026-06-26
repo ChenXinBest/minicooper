@@ -226,11 +226,10 @@ jobs:
           modules-to-cache: BuildHelpers, Pester
       - name: Run tests
         run: .\bin\test.ps1
-        env:
-          SCOOP_HOME: ${{ github.workspace }}\scoop_core
 ```
 
 **作用**：每次 PR 改动触发，自动跑 Pester 检查 manifest 格式、URL 可达性、hash 正确性。
+（`SCOOP_HOME` 在 `bin/test.ps1` 内部基于 `scoop_core` 相对路径自动设置。）
 
 ### 5.2 `.github/workflows/excavator.yml`
 
