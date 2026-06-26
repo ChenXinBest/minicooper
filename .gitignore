@@ -1,0 +1,28 @@
+# Build outputs
+*.exe
+*.zip
+*.tar.gz
+*.dmg
+*.AppImage
+*.deb
+*.rpm
+*.pacman
+*.msi
+
+# PowerShell
+*.ps1.bak
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Scoop cache
+*.download
+*.extract
