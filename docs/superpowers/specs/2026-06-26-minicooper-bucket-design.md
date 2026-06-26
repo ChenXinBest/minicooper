@@ -237,55 +237,35 @@ jobs:
 
 ```yaml
 name: Excavator
+
 on:
-  schedule:
-    - cron: '0 */4 * * *'
   workflow_dispatch:
+  schedule:
+    # run every 4 hours
+    - cron: '20 */4 * * *'
 
 permissions:
-  contents: read
-  pull-requests: read
+  contents: write
 
 jobs:
-  auto-update:
+  excavate:
+    name: Excavate
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          token: ${{ secrets.GH_PAT }}
-      - uses: actions/checkout@v4
-        with:
-          repository: ScoopInstaller/Scoop
-          path: scoop_core
-      - uses: actions/checkout@v4
-        with:
-          repository: ScoopInstaller/Excavator
-          path: excavator
-      - uses: potatoqualitee/psmodulecache@v1
-        with:
-          modules-to-cache: BuildHelpers, Pester
-      - name: Run Excavator
-        run: .\bin\auto-pr.ps1 -Push
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Excavate
+        uses: ScoopInstaller/GithubActions@main
         env:
-          GH_TOKEN: ${{ secrets.GH_PAT }}
-          SCOOP_BUCKET_REPO: ChenXinBest/minicooper
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SKIP_UPDATED: 1
 ```
 
-**作用**：每 4 小时调用 `auto-pr.ps1` 扫描所有 manifest 的上游版本号；发现新版后自动开 PR。
+**作用**：每 4 小时（cron `20 */4 * * *`）调用 `ScoopInstaller/GithubActions` action 扫描所有 manifest 的上游版本号；发现新版后自动开 PR。
 
-### 5.3 `bin/auto-pr.ps1`
+> 说明：BucketTemplate 的实际做法是用 [`ScoopInstaller/GithubActions`](https://github.com/ScoopInstaller/GithubActions) 这个封装好的 action（其内部调用 `ScoopInstaller/Scoop/bin/auto-pr.ps1` + `checkver.ps1`）。**不需要自己实现 `bin/auto-pr.ps1`**——ScoopInstaller 的 auto-pr 逻辑在 `ScoopInstaller/Scoop` 仓库中独立维护。
 
-精简自 BucketTemplate，核心逻辑：
-- 调用 `Excavator\Invoke-BucketUpdate` 遍历每个 manifest
-- 用 `checkver` 字段获取上游最新版
-- 对比当前 manifest 的 `version` 字段
-- 如果有新版：生成新的 manifest 内容（含新 url、hash），提交到分支 `auto/<app>-<newver>`
-- 用 PAT 创建 PR，标题格式 `[<app>] Update to <newver>`
-
-**精简部分**：删除 BucketTemplate 中的 PR template（README 引导）、merge conflict 自动重试逻辑、多个 -WhatIf 分支。
-
-### 5.4 `bin/test.ps1`
+### 5.3 `bin/test.ps1`
 
 ```powershell
 #Requires -Version 5.1

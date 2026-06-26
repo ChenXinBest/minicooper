@@ -838,130 +838,52 @@ git push origin master
 
 ---
 
-## Task 9: Excavator workflow (excavator.yml + bin/auto-pr.ps1)
+## Task 9: Excavator workflow (使用 ScoopInstaller/GithubActions)
 
 **Files:**
 - Create: `.github/workflows/excavator.yml`
-- Create: `bin/auto-pr.ps1`
+- (不要创建 `bin/auto-pr.ps1` — BucketTemplate 的标准做法是直接用封装好的 `ScoopInstaller/GithubActions` action)
 
 **Interfaces:**
 - Consumes: Task 3-6 的 manifest 中 `checkver` / `autoupdate` 字段
 - Produces: 每 4 小时自动检查上游版本，发现新版自动开 PR
 
-- [ ] **Step 1: 编写 `bin/auto-pr.ps1`**
+- [ ] **Step 1: 编写 `.github/workflows/excavator.yml`**
 
-精简自 BucketTemplate，去掉 PR template 和 merge 重试：
-
-```powershell
-#Requires -Version 5.1
-#Requires -Modules @{ ModuleName = 'BuildHelpers'; ModuleVersion = '2.0.1' }
-#Requires -Modules @{ ModuleName = 'Pester'; ModuleVersion = '5.2.0' }
-
-[CmdletBinding()]
-param(
-    [switch]$Push
-)
-
-$ErrorActionPreference = 'Stop'
-
-$env:SCOOP_HOME = "$(Convert-Path '.\scoop_core')"
-$ExcavatorModule = Join-Path $PSScriptRoot '..\excavator\Excavator.psm1'
-Import-Module $ExcavatorModule -Force
-
-$repo = $env:SCOOP_BUCKET_REPO
-if (-not $repo) {
-    throw "SCOOP_BUCKET_REPO env var is required"
-}
-
-$token = $env:GH_TOKEN
-if (-not $token) {
-    throw "GH_TOKEN env var is required"
-}
-
-$dir = Resolve-Path "$PSScriptRoot\.."
-$manifests = Get-ChildItem -Path "$dir\bucket" -Filter '*.json' -File
-
-foreach ($manifest in $manifests) {
-    Write-Host "Checking $($manifest.Name)..."
-    try {
-        $update = Invoke-BucketUpdate -ManifestPath $manifest.FullName -Outdated -ErrorAction Stop
-        if ($update) {
-            Write-Host "Update available for $($manifest.Name)"
-            if ($Push) {
-                $branch = "auto/$([System.IO.Path]::GetFileNameWithoutExtension($manifest.Name))-$($update.Version)"
-                $title = "[$([System.IO.Path]::GetFileNameWithoutExtension($manifest.Name))] Update to $($update.Version)"
-                $body = "Auto-updated by Excavator.`n`nDiff: https://github.com/$repo/compare/master...$branch"
-
-                git config user.name "github-actions[bot]"
-                git config user.email "github-actions[bot]@users.noreply.github.com"
-                git checkout -B $branch
-                git add $manifest.FullName
-                git commit -m $title
-                git push origin $branch --force
-
-                $prPayload = @{
-                    title = $title
-                    head  = $branch
-                    base  = "master"
-                    body  = $body
-                } | ConvertTo-Json
-
-                $headers = @{
-                    Authorization = "Bearer $token"
-                    Accept        = "application/vnd.github+json"
-                }
-                Invoke-RestMethod -Method Post -Uri "https://api.github.com/repos/$repo/pulls" -Headers $headers -Body $prPayload -ContentType 'application/json'
-            }
-        }
-    } catch {
-        Write-Warning "Failed to update $($manifest.Name): $_"
-    }
-}
-```
-
-- [ ] **Step 2: 编写 `.github/workflows/excavator.yml`**
+BucketTemplate 的实际做法 — 使用封装好的 `ScoopInstaller/GithubActions@main` action（其内部调用 `ScoopInstaller/Scoop/bin/auto-pr.ps1` + `checkver.ps1`）：
 
 ```yaml
 name: Excavator
+
 on:
-  schedule:
-    - cron: '0 */4 * * *'
   workflow_dispatch:
+  schedule:
+    # run every 4 hours
+    - cron: '20 */4 * * *'
 
 permissions:
-  contents: read
-  pull-requests: read
+  contents: write
 
 jobs:
-  auto-update:
+  excavate:
+    name: Excavate
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          token: ${{ secrets.GH_PAT }}
-      - uses: actions/checkout@v4
-        with:
-          repository: ScoopInstaller/Scoop
-          path: scoop_core
-      - uses: actions/checkout@v4
-        with:
-          repository: ScoopInstaller/Excavator
-          path: excavator
-      - uses: potatoqualitee/psmodulecache@v1
-        with:
-          modules-to-cache: BuildHelpers, Pester
-      - name: Run Excavator
-        run: .\bin\auto-pr.ps1 -Push
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Excavate
+        uses: ScoopInstaller/GithubActions@main
         env:
-          GH_TOKEN: ${{ secrets.GH_PAT }}
-          SCOOP_BUCKET_REPO: ChenXinBest/minicooper
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SKIP_UPDATED: 1
 ```
 
-- [ ] **Step 3: 提交**
+> 重要发现（修正）：ScoopInstaller/Excavator 仓库不是 PowerShell 模块，而是独立的 Web 服务。**真正的 auto-pr 逻辑在 `ScoopInstaller/Scoop/bin/auto-pr.ps1`**，通过 `ScoopInstaller/GithubActions` 封装 action 调用。使用内置 `GITHUB_TOKEN` 而非 `GH_PAT`，`permissions: contents: write` 让内置 token 有足够权限，cron 错开整点避免与 Extras 同时跑。
+
+- [ ] **Step 2: 提交**
 
 ```bash
-git add .github/workflows/excavator.yml bin/auto-pr.ps1
+git add .github/workflows/excavator.yml
 git commit -m "ci: add Excavator auto-update workflow"
 ```
 

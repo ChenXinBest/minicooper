@@ -11,8 +11,8 @@ Describe 'Manifest JSON syntax' {
         $Manifests.Count | Should -BeGreaterThan 0
     }
 
-    It 'all manifests parse as valid JSON' -TestCases @(@{ Name = 'manifest' }) -ForEach $Manifests {
-        (Get-Content -Raw $Name.FullName) | ConvertFrom-Json -ErrorAction Stop | Out-Null
+    It '<_> parses as valid JSON' -ForEach $Manifests {
+        (Get-Content -Raw $_.FullName) | ConvertFrom-Json -ErrorAction Stop | Out-Null
     }
 }
 
