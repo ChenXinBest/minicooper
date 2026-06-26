@@ -2,9 +2,11 @@
 
 $env:SCOOP_HOME = "$(Convert-Path '.\scoop_core')"
 
+$testPath = Join-Path $PSScriptRoot '..' 'Scoop-Bucket.Tests.ps1'
+
 $pesterConfig = New-PesterConfiguration -Hashtable @{
     Run    = @{
-        Path     = "$PSScriptRoot/.."
+        Path     = $testPath
         PassThru = $true
     }
     Output = @{
