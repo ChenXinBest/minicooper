@@ -1,0 +1,25 @@
+name: CI
+on:
+  pull_request:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions: read
+
+jobs:
+  test:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - uses: actions/checkout@v4
+        with:
+          repository: ScoopInstaller/Scoop
+          path: scoop_core
+      - uses: potatoqualitee/psmodulecache@v1
+        with:
+          modules-to-cache: BuildHelpers, Pester
+      - name: Run tests
+        run: .\bin\test.ps1
