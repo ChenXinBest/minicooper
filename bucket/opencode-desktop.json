@@ -1,19 +1,19 @@
 {
-    "version": "1.17.14",
+    "version": "1.17.15",
     "description": "AI coding agent (Desktop app)",
     "homepage": "https://github.com/anomalyco/opencode",
     "license": "MIT",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/anomalyco/opencode/releases/download/v1.17.14/opencode-desktop-win-x64.exe",
-            "hash": "188c266c8fb9cde60c45948df6e227e041731796d54fda919ca9aa20279963c3",
+            "url": "https://github.com/anomalyco/opencode/releases/download/v1.17.15/opencode-desktop-win-x64.exe",
+            "hash": "79cc60a32a8fc34228e1c91d12f9163e846913c5a458cd018563b3e650f0b225",
             "installer": {
                 "file": "opencode-desktop-win-x64.exe"
             }
         },
         "arm64": {
-            "url": "https://github.com/anomalyco/opencode/releases/download/v1.17.14/opencode-desktop-win-arm64.exe",
-            "hash": "3ca6c41813e45f76da2285e68610fd40b24c2d05f2a2d63f0801767b6877a11c",
+            "url": "https://github.com/anomalyco/opencode/releases/download/v1.17.15/opencode-desktop-win-arm64.exe",
+            "hash": "25ebfd1ea75df2fff0de3a39da8def182156deeee86979751caaa79975a72ecd",
             "installer": {
                 "file": "opencode-desktop-win-arm64.exe"
             }
