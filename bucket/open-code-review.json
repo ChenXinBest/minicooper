@@ -1,17 +1,17 @@
 {
-    "version": "1.9.2",
+    "version": "1.9.3",
     "description": "AI-powered code review CLI by Alibaba (use `ocr` command)",
     "homepage": "https://github.com/alibaba/open-code-review",
     "license": "Apache-2.0",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/alibaba/open-code-review/releases/download/v1.9.2/opencodereview-windows-amd64.exe",
-            "hash": "a5bc4ae5c634a27b6a066121133bce602489f7ef0c6fe948b0c784610045ebac",
+            "url": "https://github.com/alibaba/open-code-review/releases/download/v1.9.3/opencodereview-windows-amd64.exe",
+            "hash": "5967c9b099ada93eaec390e52cf7fadad25008ea4341105848905dfe656221b0",
             "pre_install": "Rename-Item -Path \"$dir\\opencodereview-windows-amd64.exe\" -NewName \"ocr.exe\" -Force"
         },
         "arm64": {
-            "url": "https://github.com/alibaba/open-code-review/releases/download/v1.9.2/opencodereview-windows-arm64.exe",
-            "hash": "59409fdf2ecba31a9491992711e14b2052fff411046768fc619cae49ef8ebdf9",
+            "url": "https://github.com/alibaba/open-code-review/releases/download/v1.9.3/opencodereview-windows-arm64.exe",
+            "hash": "1eabaadef85e9e10bcd1f7b6a24911ee48cb1f68efb51c4e2bb9308e224a339c",
             "pre_install": "Rename-Item -Path \"$dir\\opencodereview-windows-arm64.exe\" -NewName \"ocr.exe\" -Force"
         }
     },
