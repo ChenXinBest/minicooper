@@ -6,6 +6,7 @@
 
 | App                | 用途                                          |
 | ------------------ | --------------------------------------------- |
+| `lazygit`          | Git 命令的简易终端 UI                        |
 | `netcatty`         | AI 驱动的终端 + SSH 客户端                    |
 | `opencode`         | AI 编程代理（CLI）                            |
 | `opencode-desktop` | AI 编程代理（桌面应用）                       |
@@ -15,6 +16,7 @@
 
 ```powershell
 scoop bucket add minicooper https://github.com/ChenXinBest/minicooper
+scoop install minicooper/lazygit
 scoop install minicooper/netcatty
 scoop install minicooper/opencode
 scoop install minicooper/opencode-desktop
@@ -31,4 +33,4 @@ scoop install minicooper/open-code-review
 
 ## 贡献
 
-本仓库仅收录个人维护的 3 个软件（4 个 manifest）。如需添加其他软件，请 fork 后自行管理。
+本仓库仅收录个人维护的 4 个软件（5 个 manifest）。如需添加其他软件，请 fork 后自行管理。
