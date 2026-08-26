@@ -11,6 +11,7 @@
 | `opencode`         | AI 编程代理（CLI）                            |
 | `opencode-desktop` | AI 编程代理（桌面应用）                       |
 | `open-code-review` | 阿里巴巴 AI 代码审查 CLI                      |
+| `mysql-shell`      | MySQL 交互式 JavaScript、Python 或 SQL 接口  |
 
 ## 安装
 
@@ -21,6 +22,7 @@ scoop install minicooper/netcatty
 scoop install minicooper/opencode
 scoop install minicooper/opencode-desktop
 scoop install minicooper/open-code-review
+scoop install minicooper/mysql-shell
 ```
 
 ## 架构支持
@@ -33,4 +35,4 @@ scoop install minicooper/open-code-review
 
 ## 贡献
 
-本仓库仅收录个人维护的 4 个软件（5 个 manifest）。如需添加其他软件，请 fork 后自行管理。
+本仓库仅收录个人维护的 5 个软件（6 个 manifest）。如需添加其他软件，请 fork 后自行管理。
