@@ -11,7 +11,9 @@
 | `opencode`         | AI 编程代理（CLI）                            |
 | `opencode-desktop` | AI 编程代理（桌面应用）                       |
 | `open-code-review` | 阿里巴巴 AI 代码审查 CLI                      |
-| `mysql-shell`      | MySQL 交互式 JavaScript、Python 或 SQL 接口  |
+| `filezilla`        | 快速可靠的跨平台 FTP、FTPS 和 SFTP 客户端    |
+| `innounpacker`     | Inno Setup 解包器 GUI                        |
+| `vcredist2022`     | Microsoft Visual C++ 2015-2022 可再发行组件   |
 
 ## 安装
 
@@ -22,7 +24,9 @@ scoop install minicooper/netcatty
 scoop install minicooper/opencode
 scoop install minicooper/opencode-desktop
 scoop install minicooper/open-code-review
-scoop install minicooper/mysql-shell
+scoop install minicooper/filezilla
+scoop install minicooper/innounpacker
+scoop install minicooper/vcredist2022
 ```
 
 ## 架构支持
@@ -35,4 +39,4 @@ scoop install minicooper/mysql-shell
 
 ## 贡献
 
-本仓库仅收录个人维护的 5 个软件（6 个 manifest）。如需添加其他软件，请 fork 后自行管理。
+本仓库收录个人维护的 7 个软件（8 个 manifest）。如需添加其他软件，请 fork 后自行管理。
