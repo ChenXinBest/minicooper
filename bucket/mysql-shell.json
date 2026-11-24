@@ -1,13 +1,13 @@
 {
-    "version": "26.10.0",
+    "version": "26.10.0.1",
     "description": "Interactive JavaScript, Python, or SQL interface for MySQL Server development and administration",
     "homepage": "https://dev.mysql.com/doc/mysql-shell/en/",
     "license": "GPL-2.0-only",
     "architecture": {
         "64bit": {
-            "url": "https://dev.mysql.com/Downloads/MySQL-Shell/mysql-shell-26.10.0-windows-x86-64bit.zip",
-            "hash": "c0d9289eda5d763eb9efbed87d1db5e09e47e8a39c4d7d8696f157ab1ffbd44b",
-            "extract_dir": "mysql-shell-26.10.0-windows-x86-64bit"
+            "url": "https://dev.mysql.com/Downloads/MySQL-Shell/mysql-shell-26.10.0.1-windows-x86-64bit.zip",
+            "hash": "c0c70b138e730d4cd50e203d864fe7bfd9eacadf713bfb448bb237a4d0291a23",
+            "extract_dir": "mysql-shell-26.10.0.1-windows-x86-64bit"
         }
     },
     "bin": "bin/mysqlsh.exe",
